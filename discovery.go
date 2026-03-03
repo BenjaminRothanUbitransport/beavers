@@ -40,13 +40,16 @@ func discoverProjects(cfg *Config) ([]Project, error) {
 			if ws.Type != "" {
 				pType = ws.Type
 			}
+			branch, sync := detectGitStatus(wsRoot)
 
 			p := Project{
-				ID:        fmt.Sprintf("%s-%s", ws.Name, name),
-				Name:      name,
-				Path:      wsRoot,
-				Type:      pType,
-				Workspace: ws.Name,
+				ID:         fmt.Sprintf("%s-%s", ws.Name, name),
+				Name:       name,
+				Path:       wsRoot,
+				Type:       pType,
+				Workspace:  ws.Name,
+				GitBranch:  branch,
+				SyncStatus: sync,
 			}
 			// Resolve alias from config (matching by name or absolute path)
 			for alias, target := range cfg.Aliases {
@@ -89,13 +92,16 @@ func discoverProjects(cfg *Config) ([]Project, error) {
 					if ws.Type != "" {
 						pType = ws.Type
 					}
+					branch, sync := detectGitStatus(match)
 
 					p := Project{
-						ID:        fmt.Sprintf("%s-%s", ws.Name, name),
-						Name:      name,
-						Path:      match,
-						Type:      pType,
-						Workspace: ws.Name,
+						ID:         fmt.Sprintf("%s-%s", ws.Name, name),
+						Name:       name,
+						Path:       match,
+						Type:       pType,
+						Workspace:  ws.Name,
+						GitBranch:  branch,
+						SyncStatus: sync,
 					}
 					// Resolve alias from config (matching by name or absolute path)
 					for alias, target := range cfg.Aliases {

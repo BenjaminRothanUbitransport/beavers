@@ -2,9 +2,12 @@
 
 **Beavers** is an industrious CLI tool designed to bridge the gap between physical infrastructure (Monorepos and Standalone Repos) and logical developer workflows. It provides a "single source of truth" for project discovery, local execution, and compliance auditing.
 
-## 🚀 Key Features (Phase 1: Pathfinder)
+## 🚀 Key Features
 
 - **Unified Discovery:** Map logical project names (aliases) to physical paths regardless of repo structure.
+- **Contextual Command Wrapper (Phase 2):** Execute `make` targets (`install`, `build`, `pull`) with prefixing and path awareness via the `svc` command.
+- **Git Visibility (Phase 2):** Instant visibility into Git branch sync status (ahead/behind/uncommitted) for all discovered projects.
+- **High Performance Caching (Phase 2):** Optimized discovery via `~/.beavers/cache.json` with a stale-while-revalidate background refresh logic for <100ms response times.
 - **Multi-Workspace Support:** Define distinct workspaces (e.g., `Work`, `Personal`) with different root directories.
 - **Pattern-Based Discovery:** Supports both standalone repositories and monorepo sub-projects using glob patterns.
 - **Granular Control:** Fine-tune discovery with workspace-level `type` (standalone/monorepo-sub) and `excludes` lists.
@@ -59,6 +62,15 @@ aliases:
 ```bash
 beavers project list
 ```
+Displays: Name, Alias, Type, Workspace, Git Branch, Sync Status, Path.
+
+### Service Execution
+Execute common `make` targets in a project's directory:
+```bash
+beavers svc install <alias>
+beavers svc build <alias>
+beavers svc pull <alias>
+```
 
 ### Get a project path
 ```bash
@@ -92,9 +104,13 @@ go test -v ./...
 - `commands.go`: Cobra CLI command definitions.
 - `config.go`: Viper configuration loading logic.
 - `discovery.go`: Workspace walking and project identification engine.
+- `git.go`: Git branch and sync status detection.
+- `cache.go`: JSON caching logic (stale-while-revalidate).
+- `executor.go`: `os/exec` logic for running `make` targets.
 - `models.go`: Core data structures.
 
 ## 🗺 Roadmap
-- **Phase 2: The Executor:** `make` target wrappers and Git status detection.
-- **Phase 3: The Auditor:** Declarative project health checks and compliance reporting.
-- **Phase 4: The TUI Dashboard:** Interactive monitoring with Bubble Tea.
+- [x] **Phase 1: The Pathfinder:** Core discovery and shell integration.
+- [x] **Phase 2: The Executor:** `make` target wrappers and Git status detection.
+- [ ] **Phase 3: The Auditor:** Declarative project health checks and compliance reporting.
+- [ ] **Phase 4: The TUI Dashboard:** Interactive monitoring with Bubble Tea.

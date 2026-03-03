@@ -17,10 +17,18 @@ type Config struct {
 
 // Project represents a discovered logical project.
 type Project struct {
-	ID        string
-	Name      string
-	Alias     string
-	Path      string
-	Type      string // "standalone" or "monorepo-sub"
-	Workspace string
+	ID         string
+	Name       string
+	Alias      string
+	Path       string
+	Type       string // "standalone" or "monorepo-sub"
+	Workspace  string
+	GitBranch  string
+	SyncStatus string
+}
+
+// CacheData represents the serialized cache format for projects.
+type CacheData struct {
+	Projects  []Project `json:"projects"`
+	UpdatedAt int64     `json:"updated_at"`
 }

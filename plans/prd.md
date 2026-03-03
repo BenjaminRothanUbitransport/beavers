@@ -83,10 +83,10 @@ Backend engineers at the company manage dozens of services across multiple organ
 * [x] `beavers path` command for shell `cd` integration.
 * [x] Built-in `completion` command.
 
-### Phase 2: The Executor (Workflow)
-* [ ] `os/exec` wrapper for `make` targets.
-* [ ] Git branch detection logic.
-* [ ] Local cache implementation with stale-while-revalidate logic.
+### Phase 2: The Executor (Workflow) ✅
+* [x] `os/exec` wrapper for `make` targets.
+* [x] Git branch detection logic.
+* [x] Local cache implementation with stale-while-revalidate logic.
 
 ### Phase 3: The Auditor (Compliance)
 * [ ] Core Audit engine.
