@@ -1,0 +1,16 @@
+# Beavers Global Configuration Example
+# You can place this in ~/.beavers/config.yaml or ./beavers.yaml
+
+workspaces:
+  - name: Ubitransport
+    root: /path/to/your/monorepo
+    patterns:
+      - "services/*"
+      - "apps/*"
+  - name: Personal
+    root: /path/to/standalone-repo
+
+aliases:
+  # alias: project_name_or_path
+  my-svc: svc-a
+  api: backend-service
