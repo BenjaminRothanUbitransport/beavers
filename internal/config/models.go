@@ -1,4 +1,4 @@
-package main
+package config
 
 // Workspace defines a root directory and discovery patterns for projects.
 type Workspace struct {
@@ -39,10 +39,4 @@ type Project struct {
 	Workspace  string
 	GitBranch  string
 	SyncStatus string
-}
-
-// CacheData represents the serialized cache format for projects.
-type CacheData struct {
-	Projects  []Project `json:"projects"`
-	UpdatedAt int64     `json:"updated_at"`
 }

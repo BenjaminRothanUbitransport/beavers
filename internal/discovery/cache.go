@@ -1,19 +1,24 @@
-package main
+package discovery
 
 import (
 	"encoding/json"
 	"os"
 	"path/filepath"
 	"time"
+
+	"github.com/ubitransports/beavers/internal/config"
 )
 
-// getCachePath returns the path to the cache file.
+type CacheData struct {
+	Projects  []config.Project `json:"projects"`
+	UpdatedAt int64            `json:"updated_at"`
+}
+
 func getCachePath() (string, error) {
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return "", err
 	}
-	// The config uses ~/.beavers/config.yaml, so cache goes into the same directory
 	beaversDir := filepath.Join(home, ".beavers")
 	if err := os.MkdirAll(beaversDir, 0755); err != nil {
 		return "", err
@@ -21,9 +26,7 @@ func getCachePath() (string, error) {
 	return filepath.Join(beaversDir, "cache.json"), nil
 }
 
-// readCache attempts to read the cache file.
-// Returns a boolean indicating if the cache is valid and fresh enough, and the cached projects.
-func readCache() (bool, []Project, error) {
+func ReadCache() (bool, []config.Project, error) {
 	cachePath, err := getCachePath()
 	if err != nil {
 		return false, nil, err
@@ -42,14 +45,10 @@ func readCache() (bool, []Project, error) {
 		return false, nil, err
 	}
 
-	// Stale-while-revalidate means we return the cache even if it's "stale",
-	// but we might want to know if it's totally missing vs stale.
-	// Returning true means we found it.
 	return true, cacheData.Projects, nil
 }
 
-// writeCache saves the discovered projects to the cache file.
-func writeCache(projects []Project) error {
+func WriteCache(projects []config.Project) error {
 	cachePath, err := getCachePath()
 	if err != nil {
 		return err

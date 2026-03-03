@@ -22,7 +22,7 @@
 
 ### Build from source
 ```bash
-go build -o beavers .
+go build -o beavers ./cmd/beavers
 ```
 
 ## 📖 Configuration
@@ -119,15 +119,14 @@ go test -v ./...
 ```
 
 ### Project Structure
-- `main.go`: Entry point.
-- `commands.go`: Cobra CLI command definitions.
-- `config.go`: Viper configuration loading logic.
-- `discovery.go`: Workspace walking and project identification engine.
-- `git.go`: Git branch and sync status detection.
-- `cache.go`: JSON caching logic (stale-while-revalidate).
-- `executor.go`: `os/exec` logic for running `make` targets.
-- `audit.go`: Core compliance audit engine and checkers.
-- `models.go`: Core data structures.
+- `cmd/beavers/main.go`: Entry point. Initializes the `App` context and wires up dependencies.
+- `internal/cli/`: Cobra CLI command definitions (`root.go`, `project.go`, `path.go`, `svc.go`, `audit.go`).
+- `internal/app/`: Central `App` struct and core interfaces (`GitClient`, `CommandExecutor`) for dependency injection.
+- `internal/config/`: Configuration parsing logic and models.
+- `internal/discovery/`: Workspace walking, project identification engine, and caching logic.
+- `internal/audit/`: Core compliance audit engine and checkers.
+- `internal/git/`: Implementation of the `GitClient` interface.
+- `internal/executor/`: Implementation of the `CommandExecutor` interface for shell execution.
 
 ## 🗺 Roadmap
 - [x] **Phase 1: The Pathfinder:** Core discovery and shell integration.

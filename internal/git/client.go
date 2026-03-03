@@ -1,4 +1,4 @@
-package main
+package git
 
 import (
 	"bytes"
@@ -6,9 +6,13 @@ import (
 	"strings"
 )
 
-// detectGitStatus returns the branch name and a short sync status (e.g., ahead, behind, up-to-date)
-// It returns empty strings if the path is not a git repository.
-func detectGitStatus(path string) (string, string) {
+type RealGitClient struct{}
+
+func NewClient() *RealGitClient {
+	return &RealGitClient{}
+}
+
+func (c *RealGitClient) DetectStatus(path string) (string, string) {
 	// 1. Get branch name
 	cmdBranch := exec.Command("git", "rev-parse", "--abbrev-ref", "HEAD")
 	cmdBranch.Dir = path

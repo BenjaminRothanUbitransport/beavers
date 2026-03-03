@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"fmt"
@@ -8,15 +8,14 @@ import (
 	"github.com/spf13/viper"
 )
 
-// loadConfig loads the configuration from a specific file path or default locations.
+// LoadConfig loads the configuration from a specific file path or default locations.
 // 1. Provided config flag
 // 2. Local beavers.yaml
 // 3. ~/.beavers/config.yaml
-func loadConfig(configPath string) (*Config, error) {
+func LoadConfig(configPath string) (*Config, error) {
 	v := viper.New()
 
 	if configPath != "" {
-		// If a config file is explicitly provided, use it.
 		v.SetConfigFile(configPath)
 	} else {
 		// Check for local beavers.yaml or beavers.yml explicitly to avoid picking up the 'beavers' binary
@@ -43,7 +42,6 @@ func loadConfig(configPath string) (*Config, error) {
 		}
 	}
 
-	// Read the config file (if we found one)
 	if v.ConfigFileUsed() != "" || configPath != "" {
 		if err := v.ReadInConfig(); err != nil {
 			return nil, fmt.Errorf("failed to read config file: %w", err)
