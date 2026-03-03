@@ -14,3 +14,18 @@ aliases:
   # alias: project_name_or_path
   my-svc: svc-a
   api: backend-service
+
+audit_rules:
+  require_readme:
+    type: file_exists
+    params:
+      filename: README.md
+  require_makefile:
+    type: file_exists
+    params:
+      filename: Makefile
+  require_test_target:
+    type: makefile_target
+    params:
+      target: test
+

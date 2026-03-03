@@ -11,8 +11,22 @@ type Workspace struct {
 
 // Config represents the global beavers configuration.
 type Config struct {
-	Workspaces []Workspace       `mapstructure:"workspaces" yaml:"workspaces"`
-	Aliases    map[string]string `mapstructure:"aliases" yaml:"aliases"`
+	Workspaces []Workspace          `mapstructure:"workspaces" yaml:"workspaces"`
+	Aliases    map[string]string    `mapstructure:"aliases" yaml:"aliases"`
+	AuditRules map[string]AuditRule `mapstructure:"audit_rules" yaml:"audit_rules"`
+}
+
+// AuditRule defines a single compliance check.
+type AuditRule struct {
+	Type   string            `mapstructure:"type" yaml:"type"`
+	Params map[string]string `mapstructure:"params" yaml:"params"`
+}
+
+// AuditResult represents the outcome of an audit rule check.
+type AuditResult struct {
+	RuleName string
+	Status   string // "PASS" or "FAIL"
+	Message  string
 }
 
 // Project represents a discovered logical project.

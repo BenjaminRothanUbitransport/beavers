@@ -7,6 +7,7 @@
 - **Unified Discovery:** Map logical project names (aliases) to physical paths regardless of repo structure.
 - **Contextual Command Wrapper (Phase 2):** Execute `make` targets (`install`, `build`, `pull`) with prefixing and path awareness via the `svc` command.
 - **Git Visibility (Phase 2):** Instant visibility into Git branch sync status (ahead/behind/uncommitted) for all discovered projects.
+- **Compliance Auditing (Phase 3):** Declarative health checks (file existence, Makefile targets) to ensure organizational standards are met via the `svc audit` command.
 - **High Performance Caching (Phase 2):** Optimized discovery via `~/.beavers/cache.json` with a stale-while-revalidate background refresh logic for <100ms response times.
 - **Multi-Workspace Support:** Define distinct workspaces (e.g., `Work`, `Personal`) with different root directories.
 - **Pattern-Based Discovery:** Supports both standalone repositories and monorepo sub-projects using glob patterns.
@@ -54,6 +55,18 @@ workspaces:
 aliases:
   # alias: project_folder_name_or_absolute_path
   api: backend-service
+
+audit_rules:
+  # Enforce presence of README.md
+  require_readme:
+    type: file_exists
+    params:
+      filename: README.md
+  # Enforce a 'test' target in Makefile
+  require_test_target:
+    type: makefile_target
+    params:
+      target: test
 ```
 
 ## 💻 Usage
@@ -70,6 +83,12 @@ Execute common `make` targets in a project's directory:
 beavers svc install <alias>
 beavers svc build <alias>
 beavers svc pull <alias>
+```
+
+### Compliance Audit
+Run defined audit rules against a project:
+```bash
+beavers svc audit <alias>
 ```
 
 ### Get a project path
@@ -107,10 +126,11 @@ go test -v ./...
 - `git.go`: Git branch and sync status detection.
 - `cache.go`: JSON caching logic (stale-while-revalidate).
 - `executor.go`: `os/exec` logic for running `make` targets.
+- `audit.go`: Core compliance audit engine and checkers.
 - `models.go`: Core data structures.
 
 ## 🗺 Roadmap
 - [x] **Phase 1: The Pathfinder:** Core discovery and shell integration.
 - [x] **Phase 2: The Executor:** `make` target wrappers and Git status detection.
-- [ ] **Phase 3: The Auditor:** Declarative project health checks and compliance reporting.
+- [x] **Phase 3: The Auditor:** Declarative project health checks and compliance reporting.
 - [ ] **Phase 4: The TUI Dashboard:** Interactive monitoring with Bubble Tea.

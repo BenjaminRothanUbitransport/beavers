@@ -88,11 +88,11 @@ Backend engineers at the company manage dozens of services across multiple organ
 * [x] Git branch detection logic.
 * [x] Local cache implementation with stale-while-revalidate logic.
 
-### Phase 3: The Auditor (Compliance)
-* [ ] Core Audit engine.
-* [ ] File and Makefile checkers.
-* [ ] Roadmap for `composer.json` parsing.
-* [ ] `beavers svc audit` report command.
+### Phase 3: The Auditor (Compliance) ✅
+* [x] Core Audit engine.
+* [x] File and Makefile checkers.
+* [x] Roadmap for `composer.json` parsing.
+* [x] `beavers svc audit` report command.
 
 ### Phase 4: The TUI Dashboard (Monitoring)
 * [ ] Bubble Tea integration.
